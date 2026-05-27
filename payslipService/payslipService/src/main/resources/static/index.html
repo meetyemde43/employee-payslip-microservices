@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Payslip Management</title>
+
+    <style>
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f6f8;
+            text-align: center;
+            margin-top: 60px;
+        }
+
+        .container {
+            width: 400px;
+            margin: auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px gray;
+        }
+
+        h2 {
+            color: #333;
+        }
+
+        input {
+            width: 80%;
+            padding: 10px;
+            margin: 15px;
+            border-radius: 5px;
+            border: 1px solid gray;
+        }
+
+        button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #0056b3;
+        }
+
+        #result {
+            margin-top: 20px;
+            text-align: left;
+            padding: 15px;
+            background: #eef3f7;
+            border-radius: 8px;
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+
+        <h2>Employee Payslip System</h2>
+
+        <input
+            type="number"
+            id="empId"
+            placeholder="Enter Employee ID"
+        >
+
+        <br>
+
+        <button onclick="getPayslip()">
+            Generate Payslip
+        </button>
+
+        <div id="result"></div>
+
+    </div>
+
+    <script>
+
+        function getPayslip() {
+
+            let id =
+                document.getElementById(
+                    "empId"
+                ).value;
+
+            fetch(
+                "http://localhost:8083/payslip/" + id
+            )
+
+            .then(response =>
+                response.json()
+            )
+
+            .then(data => {
+
+                document.getElementById(
+                    "result"
+                ).innerHTML =
+
+                "<h3>Payslip Details</h3>" +
+
+                "<b>Employee ID:</b> "
+                + data.empId +
+
+                "<br><br>" +
+
+                "<b>Name:</b> "
+                + data.name +
+
+                "<br><br>" +
+
+                "<b>Attendance:</b> "
+                + data.attendedDays +
+
+                " Days" +
+
+                "<br><br>" +
+
+                "<b>Monthly Salary:</b> Rs. "
+                + data.monthlySalary;
+            })
+
+            .catch(error => {
+
+                document.getElementById(
+                    "result"
+                ).innerHTML =
+
+                "Error fetching payslip.";
+            });
+        }
+
+    </script>
+
+</body>
+
+</html>

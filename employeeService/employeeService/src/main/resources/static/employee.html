@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Add Employee</title>
+
+    <style>
+
+        body {
+            font-family: Arial;
+            background: #f4f4f4;
+            text-align: center;
+            margin-top: 50px;
+        }
+
+        .container {
+            width: 400px;
+            margin: auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px gray;
+        }
+
+        input {
+            width: 85%;
+            padding: 10px;
+            margin: 10px;
+        }
+
+        button {
+            padding: 12px 20px;
+            background: green;
+            color: white;
+            border: none;
+            border-radius: 5px;
+        }
+
+        button:hover {
+            cursor: pointer;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <h2>Add Employee</h2>
+
+    <input type="number"
+           id="empId"
+           placeholder="Employee ID">
+
+    <input type="text"
+           id="name"
+           placeholder="Employee Name">
+
+    <input type="number"
+           id="salary"
+           placeholder="Basic Salary">
+
+    <br><br>
+
+    <button onclick="addEmployee()">
+        Add Employee
+    </button>
+
+    <h3 id="msg"></h3>
+
+</div>
+
+<script>
+
+function addEmployee() {
+
+    const employee = {
+
+        empId:
+        document.getElementById(
+            "empId"
+        ).value,
+
+        name:
+        document.getElementById(
+            "name"
+        ).value,
+
+        basicSalary:
+        document.getElementById(
+            "salary"
+        ).value
+    };
+
+    fetch(
+      "http://localhost:8081/employee/add",
+
+    {
+        method: "POST",
+
+        headers: {
+            "Content-Type":
+            "application/json"
+        },
+
+        body:
+        JSON.stringify(employee)
+    })
+
+    .then(response =>
+        response.text()
+    )
+
+    .then(data => {
+
+        document.getElementById(
+            "msg"
+        ).innerHTML = data;
+    })
+
+    .catch(error => {
+
+        document.getElementById(
+            "msg"
+        ).innerHTML =
+        "Error Adding Employee";
+    });
+}
+
+</script>
+
+</body>
+</html>
